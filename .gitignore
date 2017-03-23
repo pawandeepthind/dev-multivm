@@ -1,0 +1,58 @@
+# OS-specific
+.DS_Store
+
+# Editor swapfiles
+.*.sw?
+*~
+
+#Installables
+*.rpm
+*.zip
+*.jar
+*.exe
+*.tar.gz
+
+# Vagrant stuff
+acceptance_config.yml
+boxes/*
+.vagrant
+/.vagrant
+/vagrant-spec.config.rb
+
+# Bundler/Rubygems
+*.gem
+.bundle
+pkg/*
+tags
+/Gemfile.lock
+test/tmp/
+vendor/
+/exec
+
+# Documentation
+_site/*
+.yardoc/
+doc/
+
+# Python
+*.pyc
+
+# Rubinius
+*.rbc
+
+# IDE junk
+.idea/*
+*.iml
+.project
+
+# Ruby Managers
+.rbenv
+.ruby-gemset
+.ruby-version
+.rvmrc
+
+#ansible
+*.retry
+
+#project specific
+server/roles/files/*
