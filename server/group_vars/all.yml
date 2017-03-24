@@ -1,0 +1,4 @@
+---
+#file: all.yml, define variable common to all playbooks
+local_software_repo: /home/vagrant/server/roles/files
+scripts_home_path: /home/vagrant/server
