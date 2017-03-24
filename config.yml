@@ -1,30 +1,32 @@
 ---
-- group_name: oracle_group
-  servers:
-    - name: oracle
-      box: bento/centos-7.2
-      memory: 512
-      ip: 10.0.20.21
-      synced_folders: 
-        - { guest: "./server", host: "/home/vagrant/server" }
-      forwarded_ports:
-        - { guest: 1521, host: 1521 }
-- group_name: activemq_group
-  servers:
-    - name: activemq
-      box: bento/centos-7.2
-      memory: 512
-      ip: 10.0.20.31
-      synced_folders: 
-        - { guest: "./server", host: "/home/vagrant/server" }
-      forwarded_ports:
-        - { guest: 61616, host: 8616 }
-        - { guest: 8161, host: 8161 }
-# management_box: mgmt1
-#   box: bento/centos-7.2
-#   memory: 256
-#   ip: 10.0.20.10
-#   synced_folders: 
-#       - { guest: "./server", host: "/home/vagrant/server" }
-#     forwarded_ports:
-#       - { guest: 1521, host: 1521 }
+mgmt_server: 
+  name: mgmt1
+  box: bento/centos-7.2
+  memory: 256
+  ip: 10.0.20.10
+  synced_folders: 
+    - { guest: "./server", host: "/home/vagrant/server" }
+  forwarded_ports:
+    - { guest: 1521, host: 1521 }
+groups:
+  - group_name: oracle_group
+    servers:
+      - name: oracle
+        box: bento/centos-7.2
+        memory: 512
+        ip: 10.0.20.20
+        synced_folders: 
+          - { guest: "./server", host: "/home/vagrant/server" }
+        forwarded_ports:
+          - { guest: 1521, host: 1521 }
+  - group_name: activemq_group
+    servers:
+      - name: activemq
+        box: bento/centos-7.2
+        memory: 512
+        ip: 10.0.20.30
+        synced_folders: 
+          - { guest: "./server", host: "/home/vagrant/server" }
+        forwarded_ports:
+          - { guest: 61616, host: 8616 }
+          - { guest: 8161, host: 8161 }

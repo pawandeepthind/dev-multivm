@@ -11,7 +11,9 @@ VAGRANTFILE_API_VERSION = '2'.freeze
 require 'yaml'
 
 # Read YAML file with box details
-groups = YAML.load_file('config.yml')
+cfg = YAML.load_file('config.yml')
+groups = cfg['groups']
+mgmt = cfg['mgmt_server']
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.hostmanager.enabled = true
@@ -59,7 +61,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # truncate the current bootstrap
   File.open('server/inventory.ini', 'w') do |f|
-    f.write "mgmt          ansible_connection=local\n"
+    f.write "#{mgmt['name']}          ansible_connection=local\n"
     groups.each do |group|
       group['servers'].each do |server|
         f.write "#{server['name']}            ansible_ssh_host=#{server['ip']} ansible_ssh_private_key_file=/vagrant/.vagrant/machines/#{server['name']}/virtualbox/private_key\n"
@@ -90,28 +92,35 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # create mgmt machine
-  config.vm.define :ctl do |ctl_config|
-    ctl_config.vm.box = 'bento/centos-7.2'
-    ctl_config.vm.hostname = 'ctl'
-    ctl_config.vm.network :private_network, ip: '10.0.20.10'
-    ctl_config.vm.synced_folder './server',
-                                '/home/vagrant/server',
-                                create: true
-    ctl_config.vm.provider :virtualbox do |vb|
+  config.vm.define mgmt['name'] do |mgmt_config|
+    mgmt_config.vm.box = mgmt['box']
+    mgmt_config.vm.hostname = mgmt['name']
+    mgmt_config.vm.network :private_network, ip: mgmt['ip']
+
+    mgmt['synced_folders'].each do |synced_folder|
+      mgmt_config.vm.synced_folder synced_folder['guest'],
+                                   synced_folder['host'],
+                                   create: true
+    end
+
+    mgmt_config.vm.provider :virtualbox do |vb|
       # Use VBoxManage to customize the VM
       vb.customize ['modifyvm', :id,
-                    '--name', 'ctl',
-                    '--memory', '256']
+                    '--name', mgmt['name'],
+                    '--memory', mgmt['memory']]
     end
+
     if Vagrant::VERSION =~ /^1.9.1/
-      ctl_config.vm.provision :shell do |s|
+      mgmt_config.vm.provision :shell do |s|
         s.path = 'vag191workaround.sh'
       end
     end
-    ctl_config.vm.provision :shell, run: 'always' do |s|
+
+    mgmt_config.vm.provision :shell, run: 'always' do |s|
       s.path = 'bootstrap-mgmt.sh'
     end
-    ctl_config.vm.provision 'ansible_local', run: 'always' do |ansible|
+
+    mgmt_config.vm.provision 'ansible_local', run: 'always' do |ansible|
       ansible.version = 'latest'
       ansible.provisioning_path = '/home/vagrant/server/'
       ansible.playbook = 'setup.yml'
@@ -123,6 +132,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.inventory_path = '/home/vagrant/server/inventory.ini'
     end
 
-    ctl_config.ssh.insert_key = false
+    mgmt_config.ssh.insert_key = false
   end
 end
