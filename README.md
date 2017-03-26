@@ -10,8 +10,8 @@ This brings up the machine with ssh keys setup, required software installed usin
   * [Virtual Box](https://www.virtualbox.org/wiki/Download_Old_Builds_5_1) (tested with VirtualBox 5.1.10 r112026)
   * Software is installed in the machines using [ansible](https://www.ansible.com/) that is installed on mgmt_server
   * Install plugins
-    ```$ vagrant plugin install vagrant-vbguest
-    $ vagrant plugin install vagrant-hostmanager ```
+    ```$ vagrant plugin install vagrant-vbguest ```
+    ```$ vagrant plugin install vagrant-hostmanager ```
 
 ## 2. Setup Config.yml as per requirement
 
