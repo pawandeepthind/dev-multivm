@@ -1,5 +1,8 @@
 # What
-A bootstrap to setup connected multi-vm dev environment with pre-required software based on vagrant and ansible. Topology of multiple virtual machine consist of one management server with ansible installed and other machines in the topology is defined using configuration with only one command ``` vagrant up ```.
+A bootstrap to setup connected multi-vm dev environment with pre-required software installed on the machines using vagrant, virtual box and ansible. Topology for multiple virtual machine consist of 
+  * One management server with ansible installed ( specs defined in config.yml)
+  * Other machines in the topology is defined using configuration (specs defnined in config.yml) 
+User can bring up the machine with one command ``` vagrant up ```.
 
 This brings up the machine with ssh keys setup, required software installed using provisioner ansible in management server.
 
@@ -13,7 +16,7 @@ This brings up the machine with ssh keys setup, required software installed usin
     ```$ vagrant plugin install vagrant-vbguest ```
     ```$ vagrant plugin install vagrant-hostmanager ```
 
-## 2. Setup Config.yml as per requirement
+## 2. Setup config.yml as per need 
 
 ```yml
 ---
