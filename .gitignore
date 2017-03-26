@@ -56,3 +56,4 @@ doc/
 
 #project specific
 server/roles/files/*
+server/inventory.ini
