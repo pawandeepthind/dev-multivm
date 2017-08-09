@@ -1,15 +1,16 @@
 ---
-groups:
-  - group_name: oracle_group
-    servers:
-      - name: oracle
-        type: slave
-        box: centos/7
-        memory: 512
-        ip: 10.0.20.20
-        synced_folders: 
+groups: # root for multi-vm configuration
+  - group_name: oracle_group # group name where we can define one or more servers
+    servers: #array of servers that needs to be configured in this group
+      - name: oracle # name of the server
+        type: slave # type of the server (slave or masster), note: there needs to be one machine of type master 
+                    # and others should be slave. And master machine should be in the end and that gorup should have only one machine
+        box: centos/7 # which vagrant box to use to setup base machine
+        memory: 512 # memory that should be given to the machine
+        ip: 10.0.20.20 # ip address that should be given to the machine
+        synced_folders: # list of folders to setup the sync
           - { guest: "./server", host: "/home/vagrant/server" }
-        forwarded_ports:
+        forwarded_ports: # list of ports to be forwarded from the guest to host
           - { guest: 1521, host: 1521 }
   - group_name: activemq_group
     servers:

@@ -1,6 +1,6 @@
 # What
 
-Project is to setup multi-vm development environment (replicate production locally) with pre-required software installed on the machines. This setup uses
+Project to setup multi-vm development environment (replicate production locally) with pre-required software installed on the machines. This setup uses
   * vagrant
   * virtual box as the provider
   * Ansible to orchestrate installation of software
@@ -44,7 +44,8 @@ groups: # root for multi-vm configuration
   - group_name: oracle_group # group name where we can define one or more servers
     servers: #array of servers that needs to be configured in this group
       - name: oracle # name of the server
-        type: slave # type of the server (slave or masster), note: there needs to be one machine of type master and others should be slave. And master machine should be in the end and that gorup should have only one machine
+        type: slave # type of the server (slave or masster), note: there needs to be one machine of type master 
+                    # and others should be slave. And master machine should be in the end and that gorup should have only one machine
         box: centos/7 # which vagrant box to use to setup base machine
         memory: 512 # memory that should be given to the machine
         ip: 10.0.20.20 # ip address that should be given to the machine
