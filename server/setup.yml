@@ -1,6 +1,4 @@
 ---  
-- include: ssh-addkey.yml
-
 - hosts: all
   strategy: free
   become: yes
@@ -20,8 +18,3 @@
   
   roles:
     - activemq
-
-
-
-
-
