@@ -45,14 +45,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         f.write "cp server/keys/public ~/.ssh/id_rsa.pub\n"
         f.write "cp server/keys/public ~/.ssh/authorized_keys\n"
         f.write "chmod 0600 ~/.ssh/*\n"
-        serverlist = ''
-        groups.each do |gr|
-          gr['servers'].each do |s|
-            serverlist += "#{s['name']} "
-          end
-        end
-        finallist = serverlist.gsub! server['name'], ''
-        f.write "ssh-keyscan #{finallist} >> ~/.ssh/known_hosts\n"
         f.write "EOF\n"
       end
     end
